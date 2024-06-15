@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galvanized Steel Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function calculateWeight() {
+            // Get input values
+            const thickness = parseFloat(document.getElementById('thickness').value);
+            const width = parseFloat(document.getElementById('width').value);
+            const length = parseFloat(document.getElementById('length').value);
+            const densitySteel = parseFloat(document.getElementById('densitySteel').value);
+            const coatingThickness = parseFloat(document.getElementById('coatingThickness').value);
+            const densityZinc = parseFloat(document.getElementById('densityZinc').value);
+
+            // Surface area calculation (m²)
+            const surfaceArea = (2 * (length * width + length * thickness + width * thickness)) / 1000000;
+
+            // Volume of coating (m³)
+            const volumeCoating = surfaceArea * (coatingThickness / 1000000);
+
+            // Weight of coating (kg)
+            const weightCoating = volumeCoating * densityZinc;
+
+            // Volume of steel (m³)
+            const volumeSteel = (thickness * width * length) / 1000000000; // Conversion from mm³ to m³
+
+            // Weight of steel (kg)
+            const weightSteel = volumeSteel * densitySteel;
+
+            // Total weight (kg)
+            const totalWeight = weightSteel + weightCoating;
+
+            // Conversion factor (Kg/m)
+            const conversionFactor = totalWeight / (length / 1000); // Convert length to meters
+
+            // Display results
+            document.getElementById('surfaceArea').innerText = surfaceArea.toFixed(6) + ' m²';
+            document.getElementById('volumeCoating').innerText = volumeCoating.toFixed(8) + ' m³';
+            document.getElementById('weightCoating').innerText = weightCoating.toFixed(8) + ' kg';
+            document.getElementById('volumeSteel').innerText = volumeSteel.toFixed(8) + ' m³';
+            document.getElementById('weightSteel').innerText = weightSteel.toFixed(8) + ' kg';
+            document.getElementById('totalWeight').innerText = totalWeight.toFixed(8) + ' kg';
+            document.getElementById('conversionFactor').innerText = conversionFactor.toFixed(9) + ' Kg/m';
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Galvanized Steel Calculator</h1>
+    </header>
+    <div class="container">
+        <div class="form-container">
+            <form onsubmit="calculateWeight(); return false;">
+                <label for="thickness">Thickness (mm):</label>
+                <input type="number" id="thickness" required>
+
+                <label for="width">Width (mm):</label>
+                <input type="number" id="width" required>
+
+                <label for="length">Length (mm):</label>
+                <input type="number" id="length" required>
+
+                <label for="densitySteel">Density of Steel (kg/m³):</label>
+                <input type="number" id="densitySteel" value="7860" required>
+
+                <label for="coatingThickness">Coating Thickness (microns):</label>
+                <input type="number" id="coatingThickness" required>
+
+                <label for="densityZinc">Density of Zinc (kg/m³):</label>
+                <input type="number" id="densityZinc" value="7130" required>
+
+                <button type="submit">Calculate</button>
+            </form>
+        </div>
+
+        <div class="results-container">
+            <p>Surface Area: <span id="surfaceArea"></span></p>
+            <p>Volume of Coating: <span id="volumeCoating"></span></p>
+            <p>Weight of Coating: <span id="weightCoating"></span></p>
+            <p>Volume of Steel: <span id="volumeSteel"></span></p>
+            <p>Weight of Steel: <span id="weightSteel"></span></p>
+            <p>Total Weight: <span id="totalWeight"></span></p>
+            <p>Conversion Factor: <span id="conversionFactor"></span></p>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Galvanized Steel Calculator. All rights reserved.</p>
+    </footer>
+</body>
+</html>
